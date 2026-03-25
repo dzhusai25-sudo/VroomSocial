@@ -31,7 +31,7 @@
 - **TBD** — стилизация
 - **React Hook Form** — работа с формами
 - **Vite** — быстрая сборка проекта
-- **BaaS** — Backend as a Service - Supabase (аутентификация, база данных PostgreSQL, realtime)
+- **Supabase** — BaaS (аутентификация, база данных PostgreSQL, realtime)
 - **Supabase Storage** — хранение изображений
 
 
