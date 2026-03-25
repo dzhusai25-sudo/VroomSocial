@@ -24,6 +24,7 @@
 
 ## 🛠 Стек технологий
 
+### Frontend
 - **React 18** + **TypeScript** — компонентный подход с типизацией
 - **React Router v6** — маршрутизация
 - **React Query (TanStack Query)** — управление серверным состоянием, кэширование
@@ -31,9 +32,10 @@
 - **TBD** — стилизация
 - **React Hook Form** — работа с формами
 - **Vite** — быстрая сборка проекта
-- **Supabase** — BaaS (аутентификация, база данных PostgreSQL, realtime)
-- **Supabase Storage** — хранение изображений
 
+### Backend as a Service
+- **Supabase** — аутентификация, база данных PostgreSQL, realtime
+- **Supabase Storage** — хранение изображений
 
 ### Инструменты
 - **ESLint** + **Prettier** — качество кода
