@@ -34,7 +34,7 @@
 - **Vite** — быстрая сборка проекта
 
 ### Backend as a Service
-- **Supabase** — аутентификация, база данных PostgreSQL, realtime
+- **Supabase/Farebase** — аутентификация, база данных PostgreSQL, realtime
 - **Supabase Storage** — хранение изображений
 
 ### Инструменты
