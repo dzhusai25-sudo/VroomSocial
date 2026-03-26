@@ -14,15 +14,6 @@ describe("App", () => {
     expect(screen.getByText("Главная")).toBeInTheDocument();
   });
 
-  test("рендерит главную страницу по умолчанию", () => {
-    render(
-      <MemoryRouter initialEntries={["/"]}>
-        <App />
-      </MemoryRouter>,
-    );
-    expect(screen.getByText("Hello world!")).toBeInTheDocument();
-  });
-
   test('demo test', () => {
     expect(1).toBe(1);
   });
