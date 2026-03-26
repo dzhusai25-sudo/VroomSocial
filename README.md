@@ -63,4 +63,4 @@
 
 ## 🚀 Клонирование репозитория
 ```bash
-git clone https://github.com/ваш-аккаунт/vroom-social.git
+git clone https://github.com/dzhusai25-sudo/vroom-social.git
