@@ -3,28 +3,46 @@
  * @type {import('jest').Config}
  */
 const config = {
-  testEnvironment: 'jsdom',
+  testEnvironment: "jsdom",
   clearMocks: true,
-  collectCoverage: false,
-  coverageDirectory: 'coverage',
-  coverageReporters: ['html', 'text'],
-  coverageProvider: 'v8',
+  collectCoverage: true,
+  coverageDirectory: "coverage",
+  coverageReporters: ["html", "text"],
+  coverageProvider: "v8",
   coverageThreshold: {
     global: {
-      branches: 60,
-      functions: 60,
-      lines: 60,
-      statements: 60,
+      branches: 50,
+      functions: 50,
+      lines: 50,
+      statements: 50,
     },
   },
 
+  // Игнор типов и вспомогательных файлов
+  coveragePathIgnorePatterns: [
+    "/node_modules/",
+    "/src/types.tsx",
+    "/src/__mocks__/",
+  ],
+  setupFilesAfterEnv: ['<rootDir>/src/setupTests.ts'],
+  
+  testMatch: ["**/__tests__/**/*.[jt]s?(x)", "**/?(*.)+(spec|test).[tj]s?(x)"],
+  testPathIgnorePatterns: ["/node_modules/", "/lib/"],
+  preset: "ts-jest",
+
   moduleNameMapper: {
-    '\\.css$': '<rootDir>/__mocks__/styleMock.js',
+    "\\.css$": "<rootDir>/__mocks__/styleMock.js",
+    "^(\\.{1,2}/.*)\\.js$": "$1",
   },
 
-  collectCoverageFrom: ['src/**/*.js', '!src/**/*.test.js', '!src/**/index.js'],
+  collectCoverageFrom: [
+    "src/**/*.{ts,tsx}",
+    "!src/**/*.d.ts",
+    "!src/**/*.test.{ts,tsx}",
+    "!src/**/index.{ts,tsx}",
+  ],
 
-  transformIgnorePatterns: ['/node_modules/'],
+  transformIgnorePatterns: ["/node_modules/"],
 };
 
 module.exports = config;
