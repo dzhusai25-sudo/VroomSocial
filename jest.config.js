@@ -41,7 +41,9 @@ const config = {
     "!src/**/*.test.{ts,tsx}",
     "!src/**/index.{ts,tsx}",
   ],
-
+  transform: {
+  '^.+\\.(ts|tsx)$': 'ts-jest',
+  },
   transformIgnorePatterns: ["/node_modules/"],
 };
 
