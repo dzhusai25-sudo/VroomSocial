@@ -65,10 +65,14 @@
 
 ---
 
-## 🚀 Клонирование репозитория
+## 🚀 Локальный запуск
 
 ```bash
 git clone https://github.com/dzhusai25-sudo/vroom-social.git
+```
+```bash
 npm install
+```
+```bash
 npm run dev
 ```
