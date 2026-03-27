@@ -7,6 +7,7 @@ import { useAuth } from "./hooks/useAuth";
 import { CreateImpression } from "./pages/CreateImpression";
 import { Profile } from "./pages/Profile";
 import { useProfile } from "./hooks/useProfile";
+import { ImpressionDetail } from "./pages/ImpressionDetail";
 
 export function App() {
   const { user, signOut } = useAuth();
@@ -63,6 +64,7 @@ export function App() {
           }
         />
         <Route path="/about" element={<About />} />
+        <Route path="/impression/:id" element={<ProtectedRoute><ImpressionDetail /></ProtectedRoute>} />
         <Route path="/*" element={<Home />} /> {/* 404 redirect */}
       </Routes>
           </main>

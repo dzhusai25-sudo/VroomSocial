@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getImpressions, Impression } from "../services/impressions";
+import { Link} from "react-router-dom";
 
 export function Home() {
   const [impressions, setImpressions] = useState<Impression[]>([]);
@@ -44,9 +45,9 @@ export function Home() {
             padding: "1rem",
           }}
         >
-          <h3>
-            {item.car_brand} {item.car_model} город {item.city}
-          </h3>
+        <Link to={`/impression/${item.id}`}>
+          <h3>{item.car_brand} {item.car_model} город {item.city}</h3>
+        </Link>
           {item.photo_url && (
             <img
               src={item.photo_url}
@@ -56,8 +57,7 @@ export function Home() {
           )}
           <p>{item.story}</p>
           <small>
-            Автор: {item.user?.email} |{" "}
-            {new Date(item.created_at).toLocaleString()}
+            Автор: {item.author_name || 'пользователь'} | {new Date(item.created_at).toLocaleString()}
           </small>
         </div>
       ))}

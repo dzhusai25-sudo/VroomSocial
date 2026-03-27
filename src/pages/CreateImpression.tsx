@@ -2,8 +2,10 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabase";
 import { getCarBrands, getModelsByBrand } from "../services/carApi";
+import { useProfile } from '../hooks/useProfile';
 
 export function CreateImpression() {
+  const { displayName } = useProfile();
   const [city, setCity] = useState("");
   const [brand, setBrand] = useState("");
   const [model, setModel] = useState("");
@@ -91,6 +93,7 @@ export function CreateImpression() {
       car_model: model,
       photo_url: photoUrl,
       story,
+      author_name: displayName || user.email || 'пользователь',
     });
 
     if (insertError) {

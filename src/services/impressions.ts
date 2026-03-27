@@ -10,6 +10,7 @@ export interface Impression {
   story: string;
   created_at: string;
   user?: { email: string };
+  author_name?: string;
 }
 
 export async function getImpressions(page = 1, limit = 10) {
