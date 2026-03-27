@@ -6,3 +6,4 @@ lib
 *.d.ts.map
 *.js
 *.js.map
+.env
