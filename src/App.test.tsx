@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import { App } from './App';
+import { App } from "./App";
 import { MemoryRouter } from "react-router-dom";
 
 describe("App", () => {
@@ -14,7 +14,7 @@ describe("App", () => {
     expect(screen.getByText("Главная")).toBeInTheDocument();
   });
 
-  test('demo test', () => {
+  test("demo test", () => {
     expect(1).toBe(1);
   });
 });

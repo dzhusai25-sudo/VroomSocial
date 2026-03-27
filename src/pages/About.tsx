@@ -1,9 +1,6 @@
 export function About() {
   return (
     <div>
-      <p>
-        <strong>🚗 VroomSocial</strong> — место, где автомобильные энтузиасты делятся своими впечатлениями!
-      </p>
       <p>✨ Здесь каждый может:</p>
       <ul>
         <li>📝 добавить рассказ</li>

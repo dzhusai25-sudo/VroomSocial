@@ -1,31 +1,34 @@
-import { useState } from 'react';
-import { supabase } from '../lib/supabase';
-import { useNavigate } from 'react-router-dom';
+import { useState } from "react";
+import { supabase } from "../lib/supabase";
+import { useNavigate } from "react-router-dom";
 
 export function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setError('');
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    setError("");
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
     if (error) setError(error.message);
-    else navigate('/');
+    else navigate("/");
     setLoading(false);
   };
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setError('');
+    setError("");
     const { error } = await supabase.auth.signUp({ email, password });
     if (error) setError(error.message);
-    else alert('Проверьте почту для подтверждения!');
+    else alert("Проверьте почту для подтверждения!");
     setLoading(false);
   };
 
@@ -48,12 +51,12 @@ export function Login() {
           required
         />
         <button onClick={handleLogin} disabled={loading}>
-          {loading ? 'Загрузка...' : 'Войти'}
+          {loading ? "Загрузка..." : "Войти"}
         </button>
         <button onClick={handleRegister} disabled={loading}>
           Зарегистрироваться
         </button>
-        {error && <p style={{ color: 'red' }}>{error}</p>}
+        {error && <p style={{ color: "red" }}>{error}</p>}
       </form>
     </div>
   );

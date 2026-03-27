@@ -1,4 +1,4 @@
-import { supabase } from '../lib/supabase';
+import { supabase } from "../lib/supabase";
 
 export interface Impression {
   id: number;
@@ -17,9 +17,9 @@ export async function getImpressions(page = 1, limit = 10) {
   const end = start + limit - 1;
 
   const { data, error, count } = await supabase
-    .from('impressions')
-    .select('*, user:user_id(email)', { count: 'exact' })
-    .order('created_at', { ascending: false })
+    .from("impressions")
+    .select("*, user:user_id(email)", { count: "exact" })
+    .order("created_at", { ascending: false })
     .range(start, end);
 
   if (error) throw error;
