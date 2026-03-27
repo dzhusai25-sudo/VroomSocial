@@ -45,7 +45,7 @@ export function Home() {
           }}
         >
           <h3>
-            {item.car_brand} {item.car_model} в {item.city}
+            {item.car_brand} {item.car_model} город {item.city}
           </h3>
           {item.photo_url && (
             <img

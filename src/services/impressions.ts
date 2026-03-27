@@ -18,7 +18,7 @@ export async function getImpressions(page = 1, limit = 10) {
 
   const { data, error, count } = await supabase
     .from("impressions")
-    .select("*, user:user_id(email)", { count: "exact" })
+    .select('*', { count: 'exact' })
     .order("created_at", { ascending: false })
     .range(start, end);
 

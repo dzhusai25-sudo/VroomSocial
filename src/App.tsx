@@ -20,7 +20,7 @@ export function App() {
         {user ? (
           <>
             <NavLink to="/profile">Профиль</NavLink>
-            <span>Привет, {displayName || user.email}!</span>
+            <span>Привет, {displayName || user.email}🚗</span>
             <button onClick={signOut}>Выйти</button>
           </>
         ) : (
@@ -28,10 +28,12 @@ export function App() {
         )}
         {user && <NavLink to="/create">Добавить впечатление</NavLink>}
       </nav>
-
+    <main className="main-content">   
       <header>
-        <strong>🚗 VroomSocial</strong> — место, где автомобильные энтузиасты
-        делятся своими впечатлениями!
+<p>
+  <strong >Vr<span style={{ fontSize: '0.6em' }}>🛞🛞</span>mSocial</strong>{' '}
+  — место, где автомобильные энтузиасты делятся своими впечатлениями.
+</p>
       </header>
 
       <Routes>
@@ -63,7 +65,7 @@ export function App() {
         <Route path="/about" element={<About />} />
         <Route path="/*" element={<Home />} /> {/* 404 redirect */}
       </Routes>
-
+          </main>
       <footer className="footer">
         © 2026 VroomSocial. Все права защищены.
       </footer>
