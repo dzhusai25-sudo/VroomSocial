@@ -2,7 +2,7 @@ dist
 node_modules
 coverage
 .DS_Store
-lib
+# lib
 *.d.ts.map
 *.js
 *.js.map
