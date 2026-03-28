@@ -1,7 +1,6 @@
-// src/hooks/useProfile.ts
 import { useEffect, useState } from "react";
-import { supabase } from "../lib/supabase";
 import { useAuth } from "./useAuth";
+import { supabase } from "../lib/supabase";
 
 export function useProfile() {
   const { user } = useAuth();
@@ -25,5 +24,18 @@ export function useProfile() {
     fetchProfile();
   }, [user]);
 
-  return { displayName, loading };
+  const updateDisplayName = async (newName: string) => {
+    if (!user) return false;
+    const { error } = await supabase
+      .from("profiles")
+      .upsert({ id: user.id, display_name: newName });
+    if (error) {
+      console.error(error);
+      return false;
+    }
+    setDisplayName(newName);
+    return true;
+  };
+
+  return { displayName, loading, updateDisplayName };
 }

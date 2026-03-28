@@ -1,3 +1,4 @@
+import "./App.css";
 import { Routes, Route, NavLink } from "react-router-dom";
 import { Home } from "./pages/Home";
 import { About } from "./pages/About";
@@ -8,6 +9,7 @@ import { CreateImpression } from "./pages/CreateImpression";
 import { Profile } from "./pages/Profile";
 import { useProfile } from "./hooks/useProfile";
 import { ImpressionDetail } from "./pages/ImpressionDetail";
+import { NotFound } from "./pages/NotFound";
 
 export function App() {
   const { user, signOut } = useAuth();
@@ -15,19 +17,25 @@ export function App() {
 
   return (
     <div className="App">
+      {user && (
+  <span>
+    Йоу
+    {displayName ? `, ${displayName} 🚗` : '. NONAME USER??🧐 Скорее заполни профиль и делись впечатлениями!'}
+  </span>
+)}
       <nav className="navi">
         <NavLink to="/">Главная</NavLink>
         <NavLink to="/about">О сайте</NavLink>
         {user ? (
           <>
             <NavLink to="/profile">Профиль</NavLink>
-            <span>Привет, {displayName || user.email}🚗</span>
+            
             <button onClick={signOut}>Выйти</button>
           </>
         ) : (
           <NavLink to="/login">Войти</NavLink>
         )}
-        {user && <NavLink to="/create">Добавить впечатление</NavLink>}
+        {user && displayName && <NavLink to="/create">Добавить впечатление</NavLink>}
       </nav>
     <main className="main-content">   
       <header>
@@ -65,7 +73,7 @@ export function App() {
         />
         <Route path="/about" element={<About />} />
         <Route path="/impression/:id" element={<ProtectedRoute><ImpressionDetail /></ProtectedRoute>} />
-        <Route path="/*" element={<Home />} /> {/* 404 redirect */}
+        <Route path="/*" element={<NotFound />} /> {/* 404 page */}
       </Routes>
           </main>
       <footer className="footer">

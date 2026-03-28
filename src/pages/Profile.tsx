@@ -1,58 +1,60 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { supabase } from "../lib/supabase";
 import { useAuth } from "../hooks/useAuth";
+import { useProfile } from "../hooks/useProfile";
 
 export function Profile() {
   const { user } = useAuth();
-  const [displayName, setDisplayName] = useState("");
-  const [loading, setLoading] = useState(false);
+  const { displayName: profileName, updateDisplayName } = useProfile();
+  const [name, setName] = useState(profileName || "");
+  const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
+  const location = useLocation();
 
+  // Синхронизируем локальное состояние, когда profileName загрузится
   useEffect(() => {
-    if (!user) return;
-    const fetchProfile = async () => {
-      const { data, error } = await supabase
-        .from("profiles")
-        .select("display_name")
-        .eq("id", user.id)
-        .single();
-      if (data) setDisplayName(data.display_name || "");
-    };
-    fetchProfile();
-  }, [user]);
+    setName(profileName || "");
+  }, [profileName]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    const { error } = await supabase
-      .from("profiles")
-      .upsert({ id: user?.id, display_name: displayName });
-    if (error) {
-      setMessage("Ошибка сохранения");
-    } else {
+  const handleSave = async () => {
+    setSaving(true);
+    const success = await updateDisplayName(name);
+    if (success) {
       setMessage("Имя сохранено!");
-      setTimeout(() => navigate("/"), 1500);
+      setTimeout(() => {
+    window.location.reload(); // перезагрузка страницы
+  }, 100);
+      // Если пришли со страницы создания, возвращаемся туда
+      if (location.state?.fromCreate) {
+        setTimeout(() => navigate('/create'), 1500);
+      } else {
+        setTimeout(() => navigate('/'), 1500);
+      }
+    } else {
+      setMessage("Не удалось сохранить имя");
     }
-    setLoading(false);
+    setSaving(false);
   };
+
+  if (!user) return <p>Пожалуйста, войдите.</p>;
 
   return (
     <div>
       <h2>Ваш профиль</h2>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={(e) => { e.preventDefault(); handleSave(); }}>
         <div>
           <label>Отображаемое имя</label>
           <input
             type="text"
-            value={displayName}
-            onChange={(e) => setDisplayName(e.target.value)}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
             required
           />
         </div>
-        <button type="submit" disabled={loading}>
-          {loading ? "Сохранение..." : "Сохранить"}
+        <button type="submit" disabled={saving}>
+          {saving ? "Сохранение..." : "Сохранить"}
         </button>
         {message && <p>{message}</p>}
       </form>

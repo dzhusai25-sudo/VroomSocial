@@ -49,6 +49,12 @@ export function CreateImpression() {
     }
   }, [brand]);
 
+// useEffect(() => {
+//   if (!displayName) {
+//     navigate('/profile', { state: { fromCreate: true } });
+//   }
+// }, [displayName, navigate]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
