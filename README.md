@@ -58,9 +58,11 @@
 - **совместная работа пользователей**
 
 ---
+## 🚀 Удаленный запуск
+## Включите VPN если находитесь на территории РФ
+[_VroomSocial_](https://dzhusai25-sudo.github.io/VroomSocial/)
 
 ## 🚀 Локальный запуск
-
 ```bash
 git clone https://github.com/dzhusai25-sudo/vroom-social.git
 ```
