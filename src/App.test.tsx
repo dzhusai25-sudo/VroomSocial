@@ -1,20 +1,20 @@
-import { render, screen } from "@testing-library/react";
-import { App } from "./App";
-import { MemoryRouter } from "react-router-dom";
+import { render, screen } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
+import { App } from './App';
 
-describe("App", () => {
-  test("some test", () => expect(App).toBeInstanceOf(Function));
+jest.mock('./components/Navi', () => ({ Navi: () => <div>Navi Mock</div> }));
 
-  test("рендерит навигационную ссылку", () => {
+describe('App', () => {
+  it('рендерит заголовок', () => {
     render(
       <MemoryRouter>
         <App />
-      </MemoryRouter>,
+      </MemoryRouter>
     );
-    expect(screen.getByText("Главная")).toBeInTheDocument();
-  });
-
-  test("demo test", () => {
-    expect(1).toBe(1);
+    // Ищем элемент strong, который содержит текст с эмодзи
+    const header = screen.getByText((content, element) => {
+      return element?.tagName === 'STRONG' && content.includes('Vr') && content.includes('mSocial');
+    });
+    expect(header).toBeInTheDocument();
   });
 });

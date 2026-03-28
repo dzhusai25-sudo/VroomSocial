@@ -2,10 +2,22 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabase";
 import { getCarBrands, getModelsByBrand } from "../services/carApi";
-import { useProfile } from '../hooks/useProfile';
+import { useProfile } from "../hooks/useProfile";
+import {
+  Box,
+  TextField,
+  Select,
+  MenuItem,
+  Button,
+  Typography,
+  Alert,
+  CircularProgress,
+  FormControl,
+  InputLabel,
+} from "@mui/material";
 
 export function CreateImpression() {
-  const { displayName } = useProfile();
+  const { displayName, loading: profileLoading } = useProfile();
   const [city, setCity] = useState("");
   const [brand, setBrand] = useState("");
   const [model, setModel] = useState("");
@@ -19,7 +31,13 @@ export function CreateImpression() {
   const [modelsLoading, setModelsLoading] = useState(false);
   const navigate = useNavigate();
 
-  // Загружаем марки при монтировании
+    // Проверка: если профиль загружен и имя не задано → редирект на профиль
+  useEffect(() => {
+    if (!profileLoading && !displayName) {
+      navigate('/profile', { state: { fromCreate: true } });
+    }
+  }, [displayName, profileLoading, navigate]);
+  
   useEffect(() => {
     setBrandsLoading(true);
     getCarBrands()
@@ -33,7 +51,6 @@ export function CreateImpression() {
       .finally(() => setBrandsLoading(false));
   }, []);
 
-  // При выборе марки загружаем модели
   useEffect(() => {
     if (brand) {
       setModelsLoading(true);
@@ -49,18 +66,11 @@ export function CreateImpression() {
     }
   }, [brand]);
 
-// useEffect(() => {
-//   if (!displayName) {
-//     navigate('/profile', { state: { fromCreate: true } });
-//   }
-// }, [displayName, navigate]);
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError("");
 
-    // Проверка на заполнение полей (на всякий случай)
     if (!city.trim() || !brand || !model || !story.trim()) {
       setError("Пожалуйста, заполните все поля");
       setLoading(false);
@@ -99,7 +109,7 @@ export function CreateImpression() {
       car_model: model,
       photo_url: photoUrl,
       story,
-      author_name: displayName || user.email || 'пользователь',
+      author_name: displayName || user.email || "пользователь",
     });
 
     if (insertError) {
@@ -111,80 +121,111 @@ export function CreateImpression() {
   };
 
   return (
-    <div>
-      <h2>Поделиться впечатлением</h2>
+    <Box sx={{ maxWidth: 600, mx: "auto", mt: 4 }}>
+      <Typography variant="h4" gutterBottom>
+        Поделиться впечатлением
+      </Typography>
       <form onSubmit={handleSubmit}>
-        <div>
-          <label>Город</label>
-          <input
-            type="text"
-            value={city}
-            onChange={(e) => setCity(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label>Марка автомобиля</label>
-          <select
+        <TextField
+          label="Город"
+          value={city}
+          onChange={(e) => setCity(e.target.value)}
+          required
+          fullWidth
+          margin="normal"
+        />
+        <FormControl fullWidth margin="normal" disabled={brandsLoading}>
+          <InputLabel>Марка автомобиля</InputLabel>
+          <Select
             value={brand}
             onChange={(e) => setBrand(e.target.value)}
             required
-            disabled={brandsLoading}
+            label="Марка автомобиля"
           >
-            <option value="">
-              {brandsLoading ? "Загрузка марок..." : "Выберите марку"}
-            </option>
+            <MenuItem value="" disabled>
+              Выберите марку
+            </MenuItem>
             {brands.map((b) => (
-              <option key={b} value={b}>
+              <MenuItem key={b} value={b}>
                 {b}
-              </option>
+              </MenuItem>
             ))}
-          </select>
-        </div>
-        <div>
-          <label>Модель</label>
-          <select
+          </Select>
+          {brandsLoading && (
+            <CircularProgress
+              size={24}
+              sx={{ position: "absolute", right: 12, top: 18 }}
+            />
+          )}
+        </FormControl>
+        <FormControl
+          fullWidth
+          margin="normal"
+          disabled={!brand || modelsLoading}
+        >
+          <InputLabel>Модель</InputLabel>
+          <Select
             value={model}
             onChange={(e) => setModel(e.target.value)}
             required
-            disabled={!brand || modelsLoading}
+            label="Модель"
           >
-            <option value="">
-              {!brand
-                ? "Сначала выберите марку"
-                : modelsLoading
-                  ? "Загрузка моделей..."
-                  : "Выберите модель"}
-            </option>
+            <MenuItem value="" disabled>
+              Выберите модель
+            </MenuItem>
             {models.map((m) => (
-              <option key={m} value={m}>
+              <MenuItem key={m} value={m}>
                 {m}
-              </option>
+              </MenuItem>
             ))}
-          </select>
-        </div>
-        <div>
-          <label>Фото</label>
+          </Select>
+          {modelsLoading && (
+            <CircularProgress
+              size={24}
+              sx={{ position: "absolute", right: 12, top: 18 }}
+            />
+          )}
+        </FormControl>
+        <TextField
+          label="Рассказ"
+          value={story}
+          onChange={(e) => setStory(e.target.value)}
+          required
+          multiline
+          rows={5}
+          fullWidth
+          margin="normal"
+        />
+        <Button variant="contained" component="label" sx={{ mt: 2, mr: 2 }}>
+          Загрузить фото
           <input
             type="file"
             accept="image/*"
+            hidden
             onChange={(e) => setPhotoFile(e.target.files?.[0] || null)}
           />
-        </div>
-        <div>
-          <label>Рассказ</label>
-          <textarea
-            value={story}
-            onChange={(e) => setStory(e.target.value)}
-            rows={5}
-            required
-          />
-        </div>
-        {error && <p style={{ color: "red" }}>{error}</p>}
-        <button type="submit" disabled={loading}>
+        </Button>
+        {photoFile && (
+          <Typography variant="body2" sx={{ mt: 1 }}>
+            Файл выбран: {photoFile.name}
+          </Typography>
+        )}
+        {error && (
+          <Alert severity="error" sx={{ mt: 2 }}>
+            {error}
+          </Alert>
+        )}
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          disabled={loading}
+          fullWidth
+          sx={{ mt: 2 }}
+        >
           {loading ? "Отправка..." : "Опубликовать"}
-        </button>
+        </Button>
       </form>
-    </div>
+    </Box>
   );
 }

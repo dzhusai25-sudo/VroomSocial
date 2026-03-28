@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { supabase } from "../lib/supabase";
 import { useAuth } from "../hooks/useAuth";
 import { useProfile } from "../hooks/useProfile";
 
@@ -24,13 +23,13 @@ export function Profile() {
     if (success) {
       setMessage("Имя сохранено!");
       setTimeout(() => {
-    window.location.reload(); // перезагрузка страницы
-  }, 100);
+        window.location.reload(); // перезагрузка страницы
+      }, 100);
       // Если пришли со страницы создания, возвращаемся туда
       if (location.state?.fromCreate) {
-        setTimeout(() => navigate('/create'), 1500);
+        setTimeout(() => navigate("/create"), 1500);
       } else {
-        setTimeout(() => navigate('/'), 1500);
+        setTimeout(() => navigate("/"), 1500);
       }
     } else {
       setMessage("Не удалось сохранить имя");
@@ -43,7 +42,12 @@ export function Profile() {
   return (
     <div>
       <h2>Ваш профиль</h2>
-      <form onSubmit={(e) => { e.preventDefault(); handleSave(); }}>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleSave();
+        }}
+      >
         <div>
           <label>Отображаемое имя</label>
           <input

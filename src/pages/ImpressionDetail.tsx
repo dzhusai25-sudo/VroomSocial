@@ -1,13 +1,13 @@
-import { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { supabase } from '../lib/supabase';
-import { Impression } from '../services/impressions';
+import { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { supabase } from "../lib/supabase";
+import { Impression } from "../services/impressions";
 
 export function ImpressionDetail() {
   const { id } = useParams<{ id: string }>();
   const [impression, setImpression] = useState<Impression | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -15,14 +15,14 @@ export function ImpressionDetail() {
       setLoading(true);
       try {
         const { data, error } = await supabase
-          .from('impressions')
-          .select('*')
-          .eq('id', id)
+          .from("impressions")
+          .select("*")
+          .eq("id", id)
           .single();
         if (error) throw error;
         setImpression(data);
       } catch (err) {
-        setError('Не удалось загрузить впечатление');
+        setError("Не удалось загрузить впечатление");
         console.error(err);
       } finally {
         setLoading(false);
@@ -32,7 +32,7 @@ export function ImpressionDetail() {
   }, [id]);
 
   if (loading) return <div>Загрузка...</div>;
-  if (error) return <div style={{ color: 'red' }}>{error}</div>;
+  if (error) return <div style={{ color: "red" }}>{error}</div>;
   if (!impression) return <div>Впечатление не найдено</div>;
 
   return (
@@ -42,11 +42,16 @@ export function ImpressionDetail() {
         {impression.car_brand} {impression.car_model} город {impression.city}
       </h2>
       {impression.photo_url && (
-        <img src={impression.photo_url} alt="фото" style={{ maxWidth: '100%', maxHeight: '400px' }} />
+        <img
+          src={impression.photo_url}
+          alt="фото"
+          style={{ maxWidth: "100%", maxHeight: "400px" }}
+        />
       )}
       <p>{impression.story}</p>
       <small>
-        Автор: {impression.author_name || 'пользователь'} | {new Date(impression.created_at).toLocaleString()}
+        Автор: {impression.author_name || "пользователь"} |{" "}
+        {new Date(impression.created_at).toLocaleString()}
       </small>
     </div>
   );
