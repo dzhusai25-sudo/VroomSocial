@@ -1,5 +1,5 @@
-import { ThemeProvider, createTheme } from "@mui/material/styles";
-import CssBaseline from "@mui/material/CssBaseline";
+import { createTheme } from "@mui/material/styles";
+import { ThemeProvider } from './contexts/ThemeContext';
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
@@ -17,8 +17,7 @@ const theme = createTheme({
 root.render(
   <React.StrictMode>
     <BrowserRouter basename={BASENAME}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
+      <ThemeProvider>
         <App />
       </ThemeProvider>
     </BrowserRouter>

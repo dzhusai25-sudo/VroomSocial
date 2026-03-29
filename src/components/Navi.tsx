@@ -13,10 +13,14 @@ import {
   useMediaQuery,
   useTheme,
   ListItemButton,
+  ListItemIcon,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
+import Brightness4Icon from "@mui/icons-material/Brightness4";
+import Brightness7Icon from "@mui/icons-material/Brightness7";
 import { useAuth } from "../hooks/useAuth";
 import { useProfile } from "../hooks/useProfile";
+import { useThemeContext } from "../contexts/ThemeContext";
 
 export function Navi() {
   const { user, signOut } = useAuth();
@@ -25,6 +29,7 @@ export function Navi() {
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [drawerOpen, setDrawerOpen] = useState(false);
   const navigate = useNavigate();
+  const { mode, toggleTheme } = useThemeContext();
 
   const toggleDrawer = (open: boolean) => () => {
     setDrawerOpen(open);
@@ -40,16 +45,13 @@ export function Navi() {
     if (isMobile) setDrawerOpen(false);
   };
 
-  // Общие ссылки для всех
   const publicLinks = [
     { text: "Главная", to: "/" },
     { text: "О сайте", to: "/about" },
   ];
 
-  // Ссылка для добавления впечатления (только если есть имя)
   const createLink = displayName ? { text: "Добавить впечатление", to: "/create" } : null;
 
-  // Все ссылки для мобильного меню (без отдельного пункта "Профиль")
   const navLinks = user
     ? [...publicLinks, createLink].filter(Boolean)
     : publicLinks;
@@ -72,9 +74,15 @@ export function Navi() {
             <ListItemText primary={link!.text} />
           </ListItemButton>
         ))}
+        {/* Переключатель темы в мобильном меню (для всех) */}
+        <ListItemButton onClick={() => { toggleTheme(); handleNavClick(); }}>
+          <ListItemIcon>
+            {mode === "dark" ? <Brightness7Icon /> : <Brightness4Icon />}
+          </ListItemIcon>
+          <ListItemText primary={mode === "dark" ? "Светлая тема" : "Тёмная тема"} />
+        </ListItemButton>
         {user && (
           <>
-            {/* Приветствие как ссылка на профиль */}
             <ListItemButton onClick={() => { navigate("/profile"); handleNavClick(); }}>
               <ListItemText
                 primary={`Йоу${displayName ? `, ${displayName} 🚗` : ". NONAME USER??🧐"}`}
@@ -99,7 +107,7 @@ export function Navi() {
   );
 
   return (
-    <AppBar position="static" color="primary">
+    <AppBar position="static" sx={{ bgcolor: 'hsla(0, 0%, 3%, 1.00)' }}>  
       <Toolbar>
         {isMobile && (
           <IconButton
@@ -123,7 +131,7 @@ export function Navi() {
             cursor: "pointer",
           }}
         >
-          Vr🛞🛞mSocial
+          🏁__🚗__🚗____🚗...Vr🛞🛞mSocial
         </Typography>
 
         {!isMobile && (
@@ -143,6 +151,10 @@ export function Navi() {
                 {createLink.text}
               </Button>
             )}
+            {/* Переключатель темы для десктопа (для всех) */}
+            <IconButton color="inherit" onClick={toggleTheme} sx={{ ml: 1 }}>
+              {mode === "dark" ? <Brightness7Icon /> : <Brightness4Icon />}
+            </IconButton>
             {user ? (
               <>
                 <Typography
