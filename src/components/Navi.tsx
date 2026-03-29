@@ -12,17 +12,17 @@ import {
   Box,
   useMediaQuery,
   useTheme,
+  ListItemButton,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useAuth } from "../hooks/useAuth";
 import { useProfile } from "../hooks/useProfile";
-import { ListItemButton } from "@mui/material";
 
 export function Navi() {
   const { user, signOut } = useAuth();
   const { displayName } = useProfile();
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // <600px
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [drawerOpen, setDrawerOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -40,20 +40,19 @@ export function Navi() {
     if (isMobile) setDrawerOpen(false);
   };
 
-  // Ссылки для всех пользователей
+  // Общие ссылки для всех
   const publicLinks = [
     { text: "Главная", to: "/" },
     { text: "О сайте", to: "/about" },
   ];
 
-  // Ссылки для авторизованных пользователей
-  const privateLinks = [
-    { text: "Профиль", to: "/profile" },
-    { text: "Добавить впечатление", to: "/create" },
-  ];
+  // Ссылка для добавления впечатления (только если есть имя)
+  const createLink = displayName ? { text: "Добавить впечатление", to: "/create" } : null;
 
-  // Все ссылки (в зависимости от авторизации)
-  const navLinks = user ? [...publicLinks, ...privateLinks] : publicLinks;
+  // Все ссылки для мобильного меню (без отдельного пункта "Профиль")
+  const navLinks = user
+    ? [...publicLinks, createLink].filter(Boolean)
+    : publicLinks;
 
   const drawerContent = (
     <Box
@@ -65,18 +64,26 @@ export function Navi() {
       <List>
         {navLinks.map((link) => (
           <ListItemButton
-            key={link.text}
+            key={link!.text}
             component={RouterLink}
-            to={link.to}
+            to={link!.to}
             onClick={handleNavClick}
           >
-            <ListItemText primary={link.text} />
+            <ListItemText primary={link!.text} />
           </ListItemButton>
         ))}
         {user && (
-          <ListItemButton onClick={handleLogout}>
-            <ListItemText primary="Выйти" />
-          </ListItemButton>
+          <>
+            {/* Приветствие как ссылка на профиль */}
+            <ListItemButton onClick={() => { navigate("/profile"); handleNavClick(); }}>
+              <ListItemText
+                primary={`Йоу${displayName ? `, ${displayName} 🚗` : ". NONAME USER??🧐"}`}
+              />
+            </ListItemButton>
+            <ListItemButton onClick={handleLogout}>
+              <ListItemText primary="Выйти" />
+            </ListItemButton>
+          </>
         )}
         {!user && (
           <ListItemButton
@@ -88,14 +95,6 @@ export function Navi() {
           </ListItemButton>
         )}
       </List>
-      {user && (
-        <Typography variant="body2" sx={{ p: 2, textAlign: "center" }}>
-          Йоу
-          {displayName
-            ? `, ${displayName} 🚗`
-            : ". NONAME USER??🧐 Скорее заполни профиль и делись впечатлениями!"}
-        </Typography>
-      )}
     </Box>
   );
 
@@ -129,7 +128,7 @@ export function Navi() {
 
         {!isMobile && (
           <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-            {navLinks.map((link) => (
+            {publicLinks.map((link) => (
               <Button
                 key={link.text}
                 color="inherit"
@@ -139,9 +138,18 @@ export function Navi() {
                 {link.text}
               </Button>
             ))}
+            {user && createLink && (
+              <Button color="inherit" component={RouterLink} to={createLink.to}>
+                {createLink.text}
+              </Button>
+            )}
             {user ? (
               <>
-                <Typography variant="body2" sx={{ color: "white" }}>
+                <Typography
+                  variant="body2"
+                  sx={{ color: "white", cursor: "pointer" }}
+                  onClick={() => navigate("/profile")}
+                >
                   Йоу{displayName ? `, ${displayName} 🚗` : ". NONAME USER??🧐"}
                 </Typography>
                 <Button color="inherit" onClick={signOut}>

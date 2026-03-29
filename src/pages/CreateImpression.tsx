@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabase";
 import { getCarBrands, getModelsByBrand } from "../services/carApi";
 import { useProfile } from "../hooks/useProfile";
@@ -15,8 +15,11 @@ import {
   FormControl,
   InputLabel,
 } from "@mui/material";
+import { useAuth } from "../hooks/useAuth";
+
 
 export function CreateImpression() {
+  const { user, loading: authLoading } = useAuth();
   const { displayName, loading: profileLoading } = useProfile();
   const [city, setCity] = useState("");
   const [brand, setBrand] = useState("");
@@ -31,13 +34,16 @@ export function CreateImpression() {
   const [modelsLoading, setModelsLoading] = useState(false);
   const navigate = useNavigate();
 
-    // Проверка: если профиль загружен и имя не задано → редирект на профиль
-  useEffect(() => {
-    if (!profileLoading && !displayName) {
-      navigate('/profile', { state: { fromCreate: true } });
-    }
-  }, [displayName, profileLoading, navigate]);
-  
+  //   //если профиль загружен и имя не задано → редирект на профиль
+  // useEffect(() => {
+  //   if (!authLoading && !user) {
+  //     navigate('/login', { replace: true });
+  //   } else if (!profileLoading && !displayName && user) {
+  //     navigate('/profile', { state: { fromCreate: true } });
+  //   }
+  // }, [user, authLoading, displayName, profileLoading, navigate]);
+
+  //загрузка марок
   useEffect(() => {
     setBrandsLoading(true);
     getCarBrands()
@@ -51,6 +57,7 @@ export function CreateImpression() {
       .finally(() => setBrandsLoading(false));
   }, []);
 
+  //загрузка моделей для выбранной марки
   useEffect(() => {
     if (brand) {
       setModelsLoading(true);
@@ -71,15 +78,19 @@ export function CreateImpression() {
     setLoading(true);
     setError("");
 
+    if (!displayName) {
+      setError("Для публикации впечатления необходимо заполнить профиль");
+      setLoading(false);
+      return;
+    }
+
     if (!city.trim() || !brand || !model || !story.trim()) {
       setError("Пожалуйста, заполните все поля");
       setLoading(false);
       return;
     }
 
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
+    const { data: { user }, } = await supabase.auth.getUser();
     if (!user) {
       setError("Необходимо войти");
       setLoading(false);
@@ -87,6 +98,7 @@ export function CreateImpression() {
     }
 
     let photoUrl = null;
+
     if (photoFile) {
       const fileExt = photoFile.name.split(".").pop();
       const fileName = `${user.id}_${Date.now()}.${fileExt}`;
@@ -119,6 +131,20 @@ export function CreateImpression() {
     }
     setLoading(false);
   };
+
+    // Пока загружается профиль – показываем спиннер
+  if (authLoading || profileLoading) {
+    return (
+      <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
+        <CircularProgress />
+      </Box>
+    );
+  }
+
+  // Если пользователь не авторизован – редирект на логин
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
 
   return (
     <Box sx={{ maxWidth: 600, mx: "auto", mt: 4 }}>
