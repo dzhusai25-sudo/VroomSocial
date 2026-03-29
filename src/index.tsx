@@ -1,5 +1,5 @@
 import { createTheme } from "@mui/material/styles";
-import { ThemeProvider } from './contexts/ThemeContext';
+import { ThemeProvider } from "./contexts/ThemeContext";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";

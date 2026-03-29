@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { supabase } from "../lib/supabase";
 import { useNavigate } from "react-router-dom";
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams } from "react-router-dom";
 
 export function Login() {
   const [email, setEmail] = useState("");
@@ -11,21 +11,21 @@ export function Login() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
-    useEffect(() => {
+  useEffect(() => {
     const handleVerification = async () => {
-      const token = searchParams.get('token');
-      const type = searchParams.get('type');
-      if (token && type === 'signup') {
+      const token = searchParams.get("token");
+      const type = searchParams.get("type");
+      if (token && type === "signup") {
         // Попробуем подтвердить через API
         const { error } = await supabase.auth.verifyOtp({
           token_hash: token,
-          type: 'signup',
+          type: "signup",
         });
         if (error) {
-          console.error('Ошибка подтверждения:', error);
+          console.error("Ошибка подтверждения:", error);
         } else {
           // После подтверждения можно перенаправить на главную
-          window.location.href = '/';
+          window.location.href = "/";
         }
       }
     };

@@ -17,7 +17,6 @@ import {
 } from "@mui/material";
 import { useAuth } from "../hooks/useAuth";
 
-
 export function CreateImpression() {
   const { user, loading: authLoading } = useAuth();
   const { displayName, loading: profileLoading } = useProfile();
@@ -90,7 +89,9 @@ export function CreateImpression() {
       return;
     }
 
-    const { data: { user }, } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) {
       setError("Необходимо войти");
       setLoading(false);
@@ -132,7 +133,7 @@ export function CreateImpression() {
     setLoading(false);
   };
 
-    // Пока загружается профиль – показываем спиннер
+  // Пока загружается профиль – показываем спиннер
   if (authLoading || profileLoading) {
     return (
       <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>

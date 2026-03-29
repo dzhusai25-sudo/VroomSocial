@@ -50,7 +50,9 @@ export function Navi() {
     { text: "О сайте", to: "/about" },
   ];
 
-  const createLink = displayName ? { text: "Добавить впечатление", to: "/create" } : null;
+  const createLink = displayName
+    ? { text: "Добавить впечатление", to: "/create" }
+    : null;
 
   const navLinks = user
     ? [...publicLinks, createLink].filter(Boolean)
@@ -75,15 +77,27 @@ export function Navi() {
           </ListItemButton>
         ))}
         {/* Переключатель темы в мобильном меню (для всех) */}
-        <ListItemButton onClick={() => { toggleTheme(); handleNavClick(); }}>
+        <ListItemButton
+          onClick={() => {
+            toggleTheme();
+            handleNavClick();
+          }}
+        >
           <ListItemIcon>
             {mode === "dark" ? <Brightness7Icon /> : <Brightness4Icon />}
           </ListItemIcon>
-          <ListItemText primary={mode === "dark" ? "Светлая тема" : "Тёмная тема"} />
+          <ListItemText
+            primary={mode === "dark" ? "Светлая тема" : "Тёмная тема"}
+          />
         </ListItemButton>
         {user && (
           <>
-            <ListItemButton onClick={() => { navigate("/profile"); handleNavClick(); }}>
+            <ListItemButton
+              onClick={() => {
+                navigate("/profile");
+                handleNavClick();
+              }}
+            >
               <ListItemText
                 primary={`Йоу${displayName ? `, ${displayName} 🚗` : ". NONAME USER??🧐"}`}
               />
@@ -107,7 +121,7 @@ export function Navi() {
   );
 
   return (
-    <AppBar position="static" sx={{ bgcolor: 'hsla(0, 0%, 3%, 1.00)' }}>  
+    <AppBar position="static" sx={{ bgcolor: "hsla(0, 0%, 3%, 1.00)" }}>
       <Toolbar>
         {isMobile && (
           <IconButton
