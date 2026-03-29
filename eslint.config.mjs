@@ -16,7 +16,7 @@ export default defineConfig([
       ...js.configs.recommended.rules,
       semi: ["error", "always"], // отсутствие ';'
       "no-var": "error", // Запрещает использование var, требует использования const или let
-      //indent: ['error', 2], // Контролирует отступы. По умолчанию использует 2 пробела.
+      indent: ["error", 2], // Контролирует отступы. По умолчанию использует 2 пробела.
       "no-multi-spaces": "error", // Запрещает множественные пробелы, кроме случаев выравнивания
       "space-in-parens": ["error", "never"], // Контролирует пробелы внутри скобок.
       "no-multiple-empty-lines": ["error", { max: 2 }], // Ограничивает количество пустых строк подряд.
@@ -37,5 +37,4 @@ export default defineConfig([
     language: "css/css",
     extends: ["css/recommended"],
   },
-  // eslintConfigPrettier,
 ]);

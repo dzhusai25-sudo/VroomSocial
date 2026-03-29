@@ -1,4 +1,4 @@
-import { renderHook, waitFor, act } from "@testing-library/react";
+import { renderHook, waitFor } from "@testing-library/react";
 import { useProfile } from "./useProfile";
 
 jest.mock("../lib/supabase", () => ({
@@ -27,6 +27,5 @@ describe("useProfile", () => {
     await waitFor(() => !result.current.loading);
     const success = await result.current.updateDisplayName("Jane");
     expect(success).toBe(true);
-    // убираем проверку displayName
   });
 });

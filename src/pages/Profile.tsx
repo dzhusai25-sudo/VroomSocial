@@ -23,13 +23,13 @@ export function Profile() {
     if (success) {
       setMessage("Имя сохранено!");
       setTimeout(() => {
-        window.location.reload(); // перезагрузка страницы
+        window.location.reload();
       }, 100);
       // Если пришли со страницы создания, возвращаемся туда
       if (location.state?.fromCreate) {
-        setTimeout(() => navigate("/create"), 1500);
+        setTimeout(() => navigate("/create"), 1000);
       } else {
-        setTimeout(() => navigate("/"), 1500);
+        setTimeout(() => navigate("/"), 1000);
       }
     } else {
       setMessage("Не удалось сохранить имя");

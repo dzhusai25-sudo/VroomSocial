@@ -4,7 +4,7 @@ import { TextEncoder, TextDecoder } from "util";
 global.TextEncoder = TextEncoder;
 global.TextDecoder = TextDecoder as typeof global.TextDecoder;
 
-// Мок для supabase клиента
+// Мок для сервиса supabase
 jest.mock("./lib/supabase", () => ({
   supabase: {
     from: jest.fn().mockReturnThis(),
@@ -21,11 +21,9 @@ jest.mock("./lib/supabase", () => ({
       signInWithPassword: jest.fn(),
       signUp: jest.fn(),
       signOut: jest.fn(),
-      onAuthStateChange: jest
-        .fn()
-        .mockReturnValue({
-          data: { subscription: { unsubscribe: jest.fn() } },
-        }),
+      onAuthStateChange: jest.fn().mockReturnValue({
+        data: { subscription: { unsubscribe: jest.fn() } },
+      }),
     },
     storage: {
       from: jest.fn().mockReturnThis(),

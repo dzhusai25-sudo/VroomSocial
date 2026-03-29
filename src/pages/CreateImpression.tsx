@@ -33,15 +33,6 @@ export function CreateImpression() {
   const [modelsLoading, setModelsLoading] = useState(false);
   const navigate = useNavigate();
 
-  //   //если профиль загружен и имя не задано → редирект на профиль
-  // useEffect(() => {
-  //   if (!authLoading && !user) {
-  //     navigate('/login', { replace: true });
-  //   } else if (!profileLoading && !displayName && user) {
-  //     navigate('/profile', { state: { fromCreate: true } });
-  //   }
-  // }, [user, authLoading, displayName, profileLoading, navigate]);
-
   //загрузка марок
   useEffect(() => {
     setBrandsLoading(true);
@@ -133,7 +124,7 @@ export function CreateImpression() {
     setLoading(false);
   };
 
-  // Пока загружается профиль – показываем спиннер
+  //пока загружается профиль крутить спиннер
   if (authLoading || profileLoading) {
     return (
       <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
@@ -142,7 +133,6 @@ export function CreateImpression() {
     );
   }
 
-  // Если пользователь не авторизован – редирект на логин
   if (!user) {
     return <Navigate to="/login" replace />;
   }

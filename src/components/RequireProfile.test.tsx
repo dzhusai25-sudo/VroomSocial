@@ -22,7 +22,7 @@ jest.mock("../lib/supabase", () => ({
 }));
 
 describe("RequireProfile", () => {
-  it("рендерит детей, если имя есть", async () => {
+  it("рендер приватного контента, если имя есть", async () => {
     render(
       <MemoryRouter>
         <RequireProfile>
@@ -34,7 +34,7 @@ describe("RequireProfile", () => {
     expect(await screen.findByText("Protected content")).toBeInTheDocument();
   });
 
-  it("не рендерит детей, если имя отсутствует", () => {
+  it("не рендерит приватный контент, если имя отсутствует", () => {
     jest
       .spyOn(require("../hooks/useProfile"), "useProfile")
       .mockReturnValue({ displayName: null, loading: false });

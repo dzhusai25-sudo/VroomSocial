@@ -1,4 +1,4 @@
-# 🚗 VroomSocial — Сообщество автолюбителей 
+# 🚗 VroomSocial — Сообщество автолюбителей
 
 [![React](https://img.shields.io/badge/React-18.2-61DAFB?logo=react)](https://reactjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178C6?logo=typescript)](https://www.typescriptlang.org/)
@@ -17,7 +17,7 @@
 - ❤️ **Лайки** — возможность оценить чужие публикации
 - 🔍 **Фильтрация** — по марке и модели автомобиля
 - 🚘 **Каталог автомобилей** — марки и модели (интеграция с открытым API)
-- 📱 **Адаптивный дизайн** — удобная работа на мобильных устройствах и планшетах
+- 📱 **Адаптивный дизайн** — удобная работа на мобильных устройствах
 
 ---
 
@@ -62,18 +62,23 @@
 ---
 
 ## 🚀 Удаленный запуск (используйте VPN если находитесь на территории РФ)
+
 [_VroomSocial_](https://dzhusai25-sudo.github.io/VroomSocial/)
 
 ## 🚀 Локальный запуск
+
 ```bash
 git clone https://github.com/dzhusai25-sudo/vroom-social.git
 ```
+
 ```bash
 cd VroomSocial
 ```
+
 ```bash
 npm install
 ```
+
 ```bash
 npm run dev
 ```

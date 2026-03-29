@@ -11,7 +11,6 @@ describe("App", () => {
         <App />
       </MemoryRouter>,
     );
-    // Ищем элемент strong, который содержит текст с эмодзи
     const header = screen.getByText((content, element) => {
       return (
         element?.tagName === "STRONG" &&
