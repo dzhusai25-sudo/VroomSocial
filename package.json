@@ -1,5 +1,5 @@
 {
-  "name": "wroomsocial",
+  "name": "vroomsocial",
   "version": "1.0.0",
   "private": "true",
   "scripts": {
@@ -21,15 +21,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dzhusai25-sudo/WroomSocial.git"
+    "url": "git+https://github.com/dzhusai25-sudo/VroomSocial.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/dzhusai25-sudo/WroomSocial/issues"
+    "url": "https://github.com/dzhusai25-sudo/VroomSocial/issues"
   },
-  "homepage": "https://dzhusai25-sudo.github.io/WroomSocial",
+  "homepage": "https://dzhusai25-sudo.github.io/VroomSocial",
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
