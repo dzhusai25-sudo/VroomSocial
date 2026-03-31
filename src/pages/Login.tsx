@@ -17,10 +17,9 @@ export function Login() {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  // Обработка подтверждения email (token_hash в query) и OAuth (access_token в hash)
+  //подтверждения email
   useEffect(() => {
     const handleAuth = async () => {
-      // 1. Обработка hash (OAuth, Magic Link)
       const hash = window.location.hash.substring(1);
       const hashParams = new URLSearchParams(hash);
       const access_token = hashParams.get("access_token");
@@ -37,10 +36,9 @@ export function Login() {
           console.error("Ошибка установки сессии:", error);
           setError("Не удалось войти через ссылку");
         }
-        return; // Важно: после обработки hash не обрабатываем query
+        return;
       }
 
-      // 2. Обработка query (подтверждение email)
       const queryParams = new URLSearchParams(window.location.search);
       const token_hash = queryParams.get("token_hash");
       const type = queryParams.get("type");
@@ -58,7 +56,6 @@ export function Login() {
         }
       }
     };
-
     handleAuth();
   }, [navigate]);
 
