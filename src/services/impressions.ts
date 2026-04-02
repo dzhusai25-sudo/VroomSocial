@@ -43,7 +43,6 @@ export async function getImpressions(
   return { impressions: data as Impression[], count };
 }
 
-// Уникальные марки из всех впечатлений
 export async function getUniqueBrands() {
   const { data, error } = await supabase
     .from("impressions")
@@ -54,7 +53,6 @@ export async function getUniqueBrands() {
   return unique;
 }
 
-// Уникальные модели для выбранной марки из всех впечатлений
 export async function getUniqueModels(brand: string) {
   const { data, error } = await supabase
     .from("impressions")

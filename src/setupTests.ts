@@ -4,7 +4,7 @@ import { TextEncoder, TextDecoder } from "util";
 global.TextEncoder = TextEncoder;
 global.TextDecoder = TextDecoder as typeof global.TextDecoder;
 
-// Мок для сервиса supabase
+//мок для сервиса supabase
 jest.mock("./lib/supabase", () => ({
   supabase: {
     from: jest.fn().mockReturnThis(),
