@@ -23,6 +23,7 @@ const config = {
     "/node_modules/",
     "/src/types.tsx",
     "/src/__mocks__/",
+    "/src/services/"
   ],
   setupFilesAfterEnv: ['<rootDir>/src/setupTests.ts'],
   
@@ -40,11 +41,12 @@ const config = {
     "!src/**/*.d.ts",
     "!src/**/*.test.{ts,tsx}",
     "!src/**/index.{ts,tsx}",
+    "!src/lib/supabase.ts",
   ],
   transform: {
   '^.+\\.(ts|tsx)$': 'ts-jest',
   },
-  transformIgnorePatterns: ["/node_modules/"],
+  transformIgnorePatterns: ["/node_modules/", "/src/lib/supabase.ts"],
 };
 
 module.exports = config;

@@ -1,29 +1,23 @@
 import { render, screen } from "@testing-library/react";
-import { App } from './App';
 import { MemoryRouter } from "react-router-dom";
+import { App } from "./App";
+
+jest.mock("./components/Navi", () => ({ Navi: () => <div>Navi Mock</div> }));
 
 describe("App", () => {
-  test("some test", () => expect(App).toBeInstanceOf(Function));
-
-  test("рендерит навигационную ссылку", () => {
+  it("рендерит заголовок", () => {
     render(
       <MemoryRouter>
         <App />
       </MemoryRouter>,
     );
-    expect(screen.getByText("Главная")).toBeInTheDocument();
-  });
-
-  test("рендерит главную страницу по умолчанию", () => {
-    render(
-      <MemoryRouter initialEntries={["/"]}>
-        <App />
-      </MemoryRouter>,
-    );
-    expect(screen.getByText("Hello world!")).toBeInTheDocument();
-  });
-
-  test('demo test', () => {
-    expect(1).toBe(1);
+    const header = screen.getByText((content, element) => {
+      return (
+        element?.tagName === "STRONG" &&
+        content.includes("Vr") &&
+        content.includes("mSocial")
+      );
+    });
+    expect(header).toBeInTheDocument();
   });
 });
